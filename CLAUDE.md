@@ -28,6 +28,7 @@ Single Node.js process that connects to WhatsApp, routes messages to Claude Agen
 | `/setup` | First-time installation, authentication, service configuration |
 | `/customize` | Adding channels, integrations, changing behavior |
 | `/debug` | Container issues, logs, troubleshooting |
+| `/sync-upstream` | Merge latest qwibitai/nanoclaw changes into local and push to fork |
 
 ## Development
 
