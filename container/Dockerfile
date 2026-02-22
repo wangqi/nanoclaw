@@ -32,6 +32,12 @@ ENV PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium
 # Install agent-browser and claude-code globally
 RUN npm install -g agent-browser @anthropic-ai/claude-code
 
+# Install asc (App Store Connect CLI)
+ARG TARGETARCH
+RUN ASC_ARCH=$([ "$TARGETARCH" = "arm64" ] && echo "arm64" || echo "amd64") && \
+    curl -fsSL "https://github.com/rudrankriyam/App-Store-Connect-CLI/releases/download/0.31.3/asc_0.31.3_linux_${ASC_ARCH}" \
+    -o /usr/local/bin/asc && chmod +x /usr/local/bin/asc
+
 # Create app directory
 WORKDIR /app
 
