@@ -137,6 +137,16 @@ function buildVolumeMounts(
     readonly: false,
   });
 
+  // Mount xurl auth config read-only so container agents can call xurl
+  const xurlConfig = path.join(process.env.HOME || '/root', '.xurl');
+  if (fs.existsSync(xurlConfig)) {
+    mounts.push({
+      hostPath: xurlConfig,
+      containerPath: '/home/node/.xurl',
+      readonly: true,
+    });
+  }
+
   // Per-group IPC namespace: each group gets its own IPC directory
   // This prevents cross-group privilege escalation via IPC
   const groupIpcDir = resolveGroupIpcPath(group.folder);
@@ -181,7 +191,15 @@ function buildVolumeMounts(
  * Secrets are never written to disk or mounted as files.
  */
 function readSecrets(): Record<string, string> {
-  return readEnvFile(['CLAUDE_CODE_OAUTH_TOKEN', 'ANTHROPIC_API_KEY']);
+  return readEnvFile([
+    'CLAUDE_CODE_OAUTH_TOKEN',
+    'ANTHROPIC_API_KEY',
+    'ASC_KEY_ID',
+    'ASC_ISSUER_ID',
+    'ASC_PRIVATE_KEY_B64',
+    'X_CLIENT_ID',
+    'X_CLIENT_SECRET',
+  ]);
 }
 
 function buildContainerArgs(mounts: VolumeMount[], containerName: string): string[] {

@@ -38,6 +38,11 @@ RUN ASC_ARCH=$([ "$TARGETARCH" = "arm64" ] && echo "arm64" || echo "amd64") && \
     curl -fsSL "https://github.com/rudrankriyam/App-Store-Connect-CLI/releases/download/0.31.3/asc_0.31.3_linux_${ASC_ARCH}" \
     -o /usr/local/bin/asc && chmod +x /usr/local/bin/asc
 
+# Install xurl (X API CLI)
+RUN XURL_ARCH=$([ "$TARGETARCH" = "arm64" ] && echo "arm64" || echo "x86_64") && \
+    curl -fsSL "https://github.com/xdevplatform/xurl/releases/download/v1.0.3/xurl_Linux_${XURL_ARCH}.tar.gz" \
+    | tar xz -C /usr/local/bin xurl && chmod +x /usr/local/bin/xurl
+
 # Create app directory
 WORKDIR /app
 
